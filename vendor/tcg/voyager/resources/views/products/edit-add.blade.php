@@ -36,6 +36,13 @@
                                 </ul>
                             </div>
                         @endif
+                        @if (Session::has('message'))
+                            <div class="alert alert-danger">
+                                <ul>
+                                    <li>{{ session('message') }}</li>
+                                </ul>
+                            </div>
+                        @endif
 
                         <div class="panel-body">
                             <div class="form-group">

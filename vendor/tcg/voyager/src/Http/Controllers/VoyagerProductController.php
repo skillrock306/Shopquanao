@@ -28,6 +28,15 @@ class VoyagerProductController extends Controller
 			'category' => 'required',
 		]);
 
+        $checkProductCode = $this->checkProductCode($request->input('code'));
+
+        if ($checkProductCode == true) {
+            $request->session()->flash('message', 'Product code is existed!');
+
+            return redirect('admin/products/create');
+        }
+    
+
         $product = new Product;
         
         $product->code = $request->input('code');
@@ -252,5 +261,16 @@ class VoyagerProductController extends Controller
     	$variant->save();
 
     	return redirect('admin/edit-variant/' . $variantId);
+    }
+
+    private function checkProductCode($productCode)
+    {
+        $data = DB::table('products')->where('code', $productCode)->first();
+
+        if (!empty($data)) {
+            return true;
+        }
+
+        return false;
     }
 }
