@@ -63,7 +63,9 @@
                                                     <td>{{ $var->status}}</td>
                                                     <td>
                                                         <a class="btn btn-success" href="/admin/edit-variant/{{ $var->id }}">Edit<a>
-                                                        <a class="btn btn-danger" href="#">Delete<a>
+                                                        <a onclick="return confirm('Bạn có chắc chắn muốn xóa không ?')"
+                                                        data-id="{{ $var->product_id}}" 
+                                                        data-token="{{ csrf_token() }}" class="btn btn-danger deleteVariant" href="/admin/delete-variants/{{$var->id}}">Delete<a>
                                                     </td>
                                                 </a>
                                                 @endforeach
@@ -77,3 +79,26 @@
     </div>
     @endif
 @stop
+<script>
+    $(".deleteVariant").click(function(){
+        var id = $(this).data("product_id");
+        var token = $(this).data("token");
+        $.ajax(
+        {
+            url: "admin/delete-variants/"+id,
+            type: 'POST',
+            dataType: "JSON",
+            data: {
+                "product_id": id,
+                "_method": 'DELETE',
+                "_token": token,
+            },
+            success: function ()
+            {
+                console.log("it Work");
+            }
+        });
+
+        console.log("It failed");
+    });
+</script>

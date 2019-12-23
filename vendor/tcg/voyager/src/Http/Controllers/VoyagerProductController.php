@@ -116,8 +116,8 @@ class VoyagerProductController extends Controller
     	$variantSizeData = array();
     	$variants = DB::table('variants')->where('product_id', $id)->get();
     	// GET THE DataType based on the slug
-    	$sizes = DB::table('properties')->where('attribute_id', 1)->get();
-    	$colors = DB::table('properties')->where('attribute_id', 2)->get();
+    	$sizes = DB::table('properties')->where('attribute_id', 2)->get();
+    	$colors = DB::table('properties')->where('attribute_id', 1)->get();
 
     	return Voyager::view('voyager::products.edit-add-variant', compact('id', 'sizes', 'colors', 'variants', 'productVariant', 'variantColorData', 'variantSizeData', 'variantId'));
     }
@@ -166,6 +166,12 @@ class VoyagerProductController extends Controller
 
     	return redirect('admin/edit-product-variant/' . $id);
     }
+    public function postDeleteVariant($variantId)
+    {
+    	$variants = new Variant;
+	    $variants = Variant::destroy($variantId);
+	    return back();
+    }
     public function editProductImage(Request $request, $id)
     {
     	$images = DB::table('product_images')->where('product_id', $id)->get();
@@ -185,14 +191,14 @@ class VoyagerProductController extends Controller
     	$colorId = $request->input('color');
     	$product_id = $request->input('product_id');
     	$imageData = DB::table('product_images')
-    	->selectRaw('MAX("ordering") AS max_ordering')
+    	->selectRaw('MAX(ordering) AS max_ordering')
     	->where('product_id', $id)
     	->where('property_id', $colorId)
-    	->get();
-    	
+    	->first();
+
 
     	$imageOrdering = !empty($imageData) ? $imageData->max_ordering : 0;
-		
+
     	if ($request->hasFile('image')) {
     		$file = $request->image;
 
