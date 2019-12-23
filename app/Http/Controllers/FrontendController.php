@@ -37,8 +37,7 @@ class FrontendController extends Controller
     	->where('img.is_default', '=', 1)
     	->orderBy('p.id','desc')->limit(10)
     	->get();
-    	echo "<pre>";
-    	print_r($Products); die();
+
     	return view('frontend.list', compact('Products'));
 
     }

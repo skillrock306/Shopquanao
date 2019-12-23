@@ -81,7 +81,7 @@
                         <td id="images">
                         @foreach($images as $image)
                             @if($image->property_id == $color->id)
-                            <img src="{{asset('storage/products/'.$image->name)}}" width="300px" height="300px" alt="">
+                            <img src="{{url('storage/products/'.$image->name)}}" width="300px" height="300px" alt="">
                             <a onclick="return confirm('Bạn có chắc chắn muốn xóa không ?')" 
                              data-id="{{ $image->product_id,$image->property_id,$image->ordering }}" data-token="{{ csrf_token() }}" href="/admin/delete-product-images/{{$image->id}}" class="btn btn-danger btn-social-outline deleteImage">
                             X</a>
@@ -105,9 +105,9 @@
             <button type="submit" name="submit" class="btn btn-primary pull-left save">
                 {{ __('voyager::product.save') }}
             </button>&nbsp;&nbsp;&nbsp;
-            <button class="btn btn-danger exit">
+            <a href="/admin/edit-product/{{$id}}" class="btn btn-danger exit">
                 {{ __('voyager::product.exit') }}
-            </button>
+            </a>
         </form>
     </div>
 @stop

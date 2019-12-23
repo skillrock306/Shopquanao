@@ -24,14 +24,22 @@
                     @endif
 
                     <div class="panel-body">
+                    @if(!empty($productVariant))
                         <div class="form-group">
                             <label for="code">{{ __('voyager::product.code') }}</label>
-                            <input type="text" disabled="" class="form-control" id="code" name="code" placeholder="{{ __('voyager::product.code') }}"
+                            <input type="text" disabled="" 
+                                    class="form-control" id="code" name="code" placeholder="{{ __('voyager::product.code') }}"
                                    value="{{ $productVariant ? $productVariant->code : '' }}">
                         </div>
+                    @endif
                         <div class="form-group">
                             <label for="properties_size">{{ __('voyager::product.properties_size') }}</label>
-                            <select disabled="" class="form-control"name="size">
+                            <select class="form-control" @if(!empty($productVariant))
+                                                        {
+                                                            disabled=""; 
+                                                        }
+                                                        @endif 
+                            name="size">
                                 @foreach($sizes as $size)
                                     <option value="{{ $size->id }}" {{ ($variantSizeData && $variantSizeData->property_id == $size->id) ? 'selected="selected' : '' }}>
                                         {{ $size->name }}
@@ -41,7 +49,11 @@
                         </div>
                         <div class="form-group">
                             <label for="properties_color">{{ __('voyager::product.properties_color') }}</label>
-                            <select disabled="" class="form-control"name="color">
+                            <select  @if(!empty($productVariant))
+                            {
+                                disabled=""; 
+                            }
+                            @endif  class="form-control"name="color">
                                 @foreach($colors as $color)
                                     <option value="{{ $color->id }}" {{ ($variantColorData && $variantColorData->property_id == $color->id) ? 'selected="selected' : '' }}>
                                         {{ $color->name }}
@@ -49,6 +61,7 @@
                                 @endforeach
                             </select>
                         </div>
+                         
                         <div class="form-group">
                             <label for="stock">{{ __('voyager::product.stock') }}</label>
                             <input type="text" class="form-control" id="stock" name="stock" placeholder="{{ __('voyager::product.stock') }}"

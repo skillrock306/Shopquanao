@@ -152,7 +152,8 @@ Route::group(['as' => 'voyager.'], function () {
 
     Route::get('edit-variant/{variantId}', ['uses' => $namespacePrefix.'VoyagerProductController@editVariant',  'as' => 'edit_variant']);
     Route::post('post-variant', ['uses' => $namespacePrefix.'VoyagerProductController@postVariant',  'as' => 'post_variant']);
-
+    Route::get('delete-variants/{variantId}', ['uses' => $namespacePrefix.'VoyagerProductController@postDeleteVariant',  'as' => 'post_delete_variant']);
+    
     Route::get('edit-product-images/{id}', ['uses' => $namespacePrefix.'VoyagerProductController@editProductImage',  'as' => 'edit_image_product']);
     Route::post('post-product-images', ['uses' => $namespacePrefix.'VoyagerProductController@postProductImage',  'as' => 'post_image_product']);
     Route::get('delete-product-images/{id}', ['uses' => $namespacePrefix.'VoyagerProductController@postDeleteProductImage',  'as' => 'post_delete_image_product']);
