@@ -10,6 +10,8 @@ use TCG\Voyager\Models\Variant;
 use TCG\Voyager\Models\Property;
 use TCG\Voyager\Models\ProductImage;
 use Illuminate\Support\Facades\DB;
+use App\Helpers\Helper;
+
 class FrontendController extends Controller
 {
     //
@@ -37,21 +39,67 @@ class FrontendController extends Controller
     	->where('img.is_default', '=', 1)
     	->orderBy('p.id','desc')->limit(10)
     	->get();
-    	echo "<pre>";
-    	print_r($Products); die();
+
     	return view('frontend.list', compact('Products'));
 
     }
+
     public function getDetail($id){
-    	$ProductDetail = DB::table('products AS p')
-    	->leftJoin('product_images AS img', 'img.product_id', '=', 'p.id')
-    	->leftJoin('variants AS va', 'va.product_id', '=', 'p.id') 
-    	->leftJoin('product_variants AS prova', 'prova.variant_id', '=', 'va.id')
-    	->leftJoin('properties AS pro', 'pro.id', '=', 'prova.property_id')
-    	->select('p.id as productId','p.name AS productname','p.code as productcode' ,
-    		'img.name as nameimg','va.*', 'img.*','pro.name As nameProperties')
-    	->first($id);
+    	$productDetail = DB::table('products')->where('id', $id)->first();
+        $categories = DB::table('product_categories AS pc')
+            ->leftJoin('categories AS c', 'c.id', '=', 'pc.category_id')
+            ->where('pc.product_id', $id)
+            ->get();
+        $categoryName = [];
+        foreach ($categories as $category) {
+            $categoryName[] = $category->name;
+        }
+
+        $categoryName = implode(', ', $categoryName);
+        $sizes = DB::table('properties')->where('attribute_id', 1)->get();
+        $colors = DB::table('properties')->where('attribute_id', 2)->get();
     	    	
-    	return view('frontend.detail',compact('ProductDetail'));	
+    	return view(
+            'frontend.detail', 
+            compact(
+                'productDetail',
+                'categoryName',
+                'sizes',
+                'colors'
+            )
+        );	
+    }
+
+    public function ajaxProductVariant(Request $request)
+    {
+        $sizeId = $request->input('size');
+        $colorId = $request->input('color');
+        $productId = $request->input('id');
+
+        $colorData = DB::table('properties')->where('id', $colorId)->first();
+        $colorCode = $colorData->code;
+
+        $sizeData = DB::table('properties')->where('id', $sizeId)->first();
+        $sizeCode = $sizeData->code;
+
+        $productData = DB::table('products')->where('id', $productId)->first();
+        $productCode = $productData->code;
+
+        $code = $productCode . '-' . $colorCode . '-' . $sizeCode;
+
+        $variant = DB::table('variants')->where('code', $code)->first();
+        $data = [];
+
+        if (!isset($variant)) {
+            $data['msg'] = 'error';
+            $data['data'] = [];
+        } else {
+            $data['msg'] = 'success';
+            $variant->price = Helper::Numberformat($variant->price);
+            $data['data'] = $variant;
+        }
+
+        echo json_encode($data);
+        exit();
     }
 }

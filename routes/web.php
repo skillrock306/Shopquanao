@@ -15,6 +15,7 @@ Route::get('/', 'FrontendController@getHome');
 
 Route::get('detail/{id}/{slug}.html', 'FrontendController@getDetail');
 Route::get('category/{id}/{slug}.html','FrontendController@getCategory');
+Route::post('getProductVariant','FrontendController@ajaxProductVariant');
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();

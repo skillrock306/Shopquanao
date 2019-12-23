@@ -755,7 +755,11 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	</script>
 <!--===============================================================================================-->
 	<script src="vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-	<script>
+	<script type="text/javascript" language="javascript">
+		$(document).ready(function() {
+        	$('select[name="color"]').trigger('change');
+        });
+
 		$('.js-pscroll').each(function(){
 			$(this).css('position','relative');
 			$(this).css('overflow','hidden');
@@ -775,6 +779,39 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 			$('form[name="mini-cart"]').find('input[name="index"]').val(key);
 			$('form[name="mini-cart"]').find('input[name="action"]').val('delete');
 			$('form[name="mini-cart"]').submit();
+		}
+
+		function changeVariant(el) {
+			var id = $('input[name="productId"]').val();
+			var color = $('select[name="color"]').val();
+			var size = $('select[name="size"]').val();
+			var token = $('form#add-to-cart input[name="_token"]').val()
+			$.ajax({
+	            url: '/getProductVariant',
+	            type: 'POST',
+	            dataType: 'json',
+	            data: {
+		            id: id,
+		            color: color,
+		            size: size,
+		            _token: token
+	            }
+	        }).done(function(result) {
+	        	var msg = result.msg;
+	        	var data = result.data;
+
+	        	if (msg == 'error') {
+	        		$('#add-to-cart-btn').attr('disabled', true);
+	        	} else {
+	        		if (data.stock <= 0) {
+	        			$('#add-to-cart-btn').attr('disabled', true);
+	        		} else {
+	        			$('#price').html(data.price);
+	            		$('#product-code').html('SKU: '+data.code);
+	            		$('#add-to-cart-btn').attr('disabled', false);
+	        		}
+	        	}
+	        });
 		}
 	</script>
 <!--===============================================================================================-->
