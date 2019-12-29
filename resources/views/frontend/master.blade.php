@@ -314,7 +314,7 @@
 
 
 	<!-- Cart -->
-	<?php if (!empty($cart)) : ?>
+	@if (Cart::getContent()->count() > 0)
 	<div class="wrap-header-cart js-panel-cart">
 		<div class="s-full js-hide-cart"></div>
 
@@ -332,20 +332,20 @@
 			<div class="header-cart-content flex-w js-pscroll">
 				<ul class="header-cart-wrapitem w-full">
 					<form name="mini-cart" class="bg0 p-t-75 p-b-85" action="index.php?view=shopingcart" method="POST">
-						<?php foreach ($cart as $key => $item): ?>
-							<?php if (is_numeric($key)) : ?>
+						@foreach (Cart::getContent() as $key => $item)
+							@if (is_numeric($key))
 								<li class="header-cart-item flex-w flex-t m-b-12">
-									<div class="header-cart-item-img" onclick="miniCartDelete(this);" data-idx="<?php echo $key; ?>">
-										<img src="<?php echo PRODUCT_IMAGE_PATH . $item['tenhinh']; ?>" alt="IMG">
+									<div class="header-cart-item-img" onclick="miniCartDelete(this);" data-idx="{{ $key }}; ?>">
+										<img src="{{asset('storage/products/' . $item->attributes->image)}}" alt="{{ $item->name }}">
 									</div>
 
 									<div class="header-cart-item-txt p-t-8">
 										<a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
-											<?php echo $item['ten']; ?>
+											{{ $item->name }}
 										</a>
 
 										<span class="header-cart-item-info">
-											<?php echo $item['quantity']; ?> x <?php echo $db->formatPrice($item['giamgia']); ?>
+											{{ $item->quantity }} x {{ Helper::Numberformat($item->price) }}
 										</span>
 									</div>
 								</li>
@@ -359,15 +359,15 @@
 				
 				<div class="w-full">
 					<div class="header-cart-total w-full p-tb-40">
-						Total: <?php echo $db->formatPrice($cart['total']); ?>
+						Total: {{Cart::getTotal()}}
 					</div>
 
 					<div class="header-cart-buttons flex-w w-full">
-						<a href="index.php?view=shopingcart" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
+						<a href="/cart" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
 							View Cart
 						</a>
 
-						<a href="index.php?view=checkout" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
+						<a href="/checkout" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
 							Check Out
 						</a>
 					</div>
@@ -809,6 +809,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	        			$('#price').html(data.price);
 	            		$('#product-code').html('SKU: '+data.code);
 	            		$('#add-to-cart-btn').attr('disabled', false);
+	            		$('input[name="variantId"]').val(data.id);
 	        		}
 	        	}
 	        });
