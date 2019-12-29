@@ -14,35 +14,17 @@
 							<div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
 
 							<div class="slick3 gallery-lb">
-								<div class="item-slick3" data-thumb="images/product-detail-01.jpg">
+							@foreach($productImage as $items)
+								<div class="item-slick3" data-thumb="{{asset('storage/products/'.$items->name)}}">
 									<div class="wrap-pic-w pos-relative">
-										<img src="images/product-detail-01.jpg" alt="IMG-PRODUCT">
+										<img src="{{asset('storage/products/'.$items->name)}}" alt="IMG-PRODUCT">
 
-										<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="images/product-detail-01.jpg">
+										<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="{{asset('storage/products/'.$items->name)}}">
 											<i class="fa fa-expand"></i>
 										</a>
 									</div>
 								</div>
-
-								<div class="item-slick3" data-thumb="images/product-detail-02.jpg">
-									<div class="wrap-pic-w pos-relative">
-										<img src="images/product-detail-02.jpg" alt="IMG-PRODUCT">
-
-										<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="images/product-detail-02.jpg">
-											<i class="fa fa-expand"></i>
-										</a>
-									</div>
-								</div>
-
-								<div class="item-slick3" data-thumb="images/product-detail-03.jpg">
-									<div class="wrap-pic-w pos-relative">
-										<img src="images/product-detail-03.jpg" alt="IMG-PRODUCT">
-
-										<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="images/product-detail-03.jpg">
-											<i class="fa fa-expand"></i>
-										</a>
-									</div>
-								</div>
+							@endforeach
 							</div>
 						</div>
 					</div>
@@ -53,12 +35,22 @@
 						<h4 class="mtext-105 cl2 js-name-detail p-b-14">
 							{{ $productDetail->name }}
 						</h4>
-
-						<span class="mtext-106 cl2" id="price">
-							$58.79
-						</span>
+						@foreach($variants as $variant)
 						
-						<!--  -->
+						@if($variant->price > $variant->discount)
+							<span class="mtext-106 cl2" id="price" style="text-decoration: line-through;">
+								{{Helper::Numberformat($variant->price) }}
+							</span>
+							<span class="mtext-106 cl2" style="color: red">
+								{{Helper::Numberformat($variant->discount)}} 
+							</span>
+						@else
+							<span class="mtext-106 cl2" id="price" style="text-decoration;">
+								{{Helper::Numberformat($variant->price) }}
+							</span>	
+						@endif
+						@endforeach
+					<!--  -->
 						<div class="p-t-33">
 							<div class="flex-w flex-r-m p-b-10">
 								<div class="size-203 flex-c-m respon6">
@@ -108,13 +100,12 @@
 										</div>
 									</div>
 
-									<form action="/" method="POST" name="add-to-cart" id="add-to-cart">
+									<form action="" method="POST" name="add-to-cart" id="add-to-cart">
 										<input type="hidden" name="productId" value="{{ $productDetail->id }}">
-										<input type="hidden" name="variantId" value="">
 										{{ csrf_field() }}
-										<button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail" id="add-to-cart-btn">
+										<a href="{{ route('addCart',['id'=>$productDetail->id]) }}"  class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail" id="add-to-cart-btn">
 											Add to cart
-										</button>
+										</a>
 									</form>
 								</div>
 							</div>	

@@ -215,18 +215,19 @@
 						<!-- Slide2 -->
 						<div class="wrap-slick2">
 							<div class="slick2">
-							@if(!empty($Products))
+						@if(!empty($Products))
 							@foreach($Products as $items)
+								@if($items->discount < $items->price)
 								<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
 									<!-- Block2 -->
 									<div class="block2">
 										<div class="block2-pic hov-img0">
-											<img src="{{asset('storage/products/'.$items->name)}}" alt="">
+											<img src="{{asset('storage/products/'.$items->nameimg)}}" alt="">
 										</div>
 
 										<div class="block2-txt flex-w flex-t p-t-14">
 											<div class="block2-txt-child1 flex-col-l ">
-												<a href="#" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+												<a href="{{asset('detail/'.$items->productId.'/'.$items->productcode.'.html')}}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
 													{{$items->productname}}
 												</a>
 
@@ -249,8 +250,9 @@
 										</div>
 									</div>
 								</div>
-								@endforeach
 								@endif
+							@endforeach
+						@endif
 							</div>
 						</div>
 					</div>

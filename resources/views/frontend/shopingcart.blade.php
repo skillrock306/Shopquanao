@@ -1,10 +1,10 @@
-@extends('ftontend.master')
+@extends('frontend.master')
 @section('title','Shopping Cart')
 @section('main')
 <form name="cart" class="bg0 p-t-75 p-b-85" action="index.php?view=shopingcart" method="POST">
 		<div class="container">
 			<div class="row">
-				<?php if (!empty($Carts)): ?>
+				@if(!empty($carts))
 				<div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
 					<div class="m-l-25 m-r--38 m-lr-0-xl">
 						<div class="wrap-table-shopping-cart">
@@ -16,8 +16,8 @@
 									<th class="column-4">Số lượng</th>
 									<th class="column-5">Tổng</th>
 								</tr>
-								<?php foreach ($Carts as $key => $cart): ?>
-									<?php if (is_numeric($key)) : ?>
+								@foreach($carts as $cart)
+									
 								<tr class="table_row">
 									<td class="column-1">
 										<div data-idx="<?php echo $key; ?>" class="how-itemcart1" onclick="cartDelete(this);">
@@ -25,13 +25,10 @@
 										</div>
 									</td>
 									<td class="column-2">
-										<strong><?php echo $cart['ten']; ?></strong><br>
-										<?php foreach ($cart['attribute'] as $idx => $attribute) : ?>
-											<?php echo $attribute['tenthuoctinh']; ?>: <?php echo $attribute['tendactinh']; ?><br>
-										<?php endforeach; ?>
+										<strong>{{$cart->ProductName}}</strong><br>
 									</td>
 									<td class="column-3">
-										<?php echo $db->formatPrice($cart['giamgia']); ?>
+										{{$cart->price}}
 									</td>
 									<td class="column-4">
 										<div class="wrap-num-product flex-w m-l-auto m-r-0">
@@ -39,17 +36,17 @@
 												<i class="fs-16 zmdi zmdi-minus"></i>
 											</div>
 
-											<input class="mtext-104 cl3 txt-center num-product" type="number" value = "<?php echo $cart['quantity']; ?>" name="quantity[<?php echo $key; ?>]" >
+											<input class="mtext-104 cl3 txt-center num-product" type="number" value = "{{$cart->quantity}}" name="" >
 
 											<div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m" onclick="cartUpdate(this);">
 												<i class="fs-16 zmdi zmdi-plus"></i>
 											</div>
 										</div>
 									</td>
-									<td class="column-5"><?php echo $db->formatPrice($cart['giamgia']*$cart['quantity']); ?></td>
+									<td class="column-5">{{$cart->price*$cart->quantity}}</td>
 								</tr>
-									<?php endif ?>
-								<?php endforeach; ?>	
+								
+								@endforeach
 							</table>
 						</div>
 					</div>
@@ -64,13 +61,13 @@
 						<div class="flex-w flex-t bor12 p-b-13">
 							<div class="size-208">
 								<span class="stext-110 cl2">
-									Tổng:
+									Tổng: 
 								</span>
 							</div>
 
 							<div class="size-209">
 								<span class="mtext-110 cl2">
-									<?php echo $db->formatPrice($Carts['subtotal']); ?>
+									{{Cart::total()}}
 								</span>
 							</div>
 						</div>
@@ -84,7 +81,7 @@
 
 							<div class="size-209 p-t-1">
 								<span class="mtext-110 cl2">
-									<?php echo $db->formatPrice($Carts['total']); ?>
+									{{Cart::total()}}
 								</span>
 							</div>
 						</div>
@@ -95,11 +92,11 @@
 						</a>
 					</div>
 				</div>
-				<?php else: ?>
+				@else
 					<h1>
 						Không có sản phẩm trong giỏ hàng
 					</h1>
-				<?php endif; ?>
+				@endif
 			</div>
 		</div>
 		<input type="hidden" name="action" value="update">

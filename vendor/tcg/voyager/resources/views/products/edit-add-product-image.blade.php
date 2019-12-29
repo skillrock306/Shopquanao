@@ -85,6 +85,8 @@
                             <a onclick="return confirm('Bạn có chắc chắn muốn xóa không ?')" 
                              data-id="{{ $image->product_id,$image->property_id,$image->ordering }}" data-token="{{ csrf_token() }}" href="/admin/delete-product-images/{{$image->id}}" class="btn btn-danger btn-social-outline deleteImage">
                             X</a>
+                            <input type="radio" onclick="setDefault(this);" class="form-check-input"   
+                                    data-id="{{ $image->id }}" data-token="{{ csrf_token() }}" data-product-id="{{ $image->product_id }}">
                             @endif
                         @endforeach
                         </td>
@@ -128,6 +130,29 @@
                 "property_id":colorId,
                 "ordering":ordering,
                 "_method": 'DELETE',
+                "_token": token,
+            },
+            success: function ()
+            {
+                console.log("it Work");
+            }
+        });
+
+        console.log("It failed");
+    });
+
+   function setDefault(el){
+        var imageId = $(this).data("id");
+        var productId = $(this).data('product-id');
+        var token = $(this).data("token");
+        $.ajax(
+        {
+            url: "/admin/setDefault/",
+            type: 'POST',
+            dataType: "JSON",
+            data: {
+                "id":imageId,
+                "product_id":productId,
                 "_token": token,
             },
             success: function ()

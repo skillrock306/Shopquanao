@@ -11,6 +11,7 @@ use TCG\Voyager\Models\Property;
 use TCG\Voyager\Models\ProductImage;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\Helper;
+use Darryldecode\Cart\Facades\CartFacade;
 
 class FrontendController extends Controller
 {
@@ -25,19 +26,20 @@ class FrontendController extends Controller
     	->where('img.is_default', '=', 1)
     	->orderBy('p.id','desc')->limit(10)
     	->get();
+      
     	return view('frontend.homepage', compact('Products'));
     }
     public function getCategory($id)
-    {
+    {   
     	$Products = DB::table('products AS p')
     	->leftJoin('product_categories AS procate', 'procate.product_id', '=', 'p.id') 
     	->leftJoin('categories AS cate', 'cate.id', '=', 'procate.category_id')
     	->leftJoin('variants AS va', 'va.product_id', '=', 'p.id') 
     	->leftJoin('product_images AS img', 'img.product_id', '=', 'p.id')
-    	->select('p.id as productId','p.name AS productname','p.code as productcode' ,'img.name as nameimg','va.*', 'img.*')
+    	->select('p.id as productId','p.name AS productname','p.code as productcode' ,'img.name as nameimg','va.*', 'img.*','procate.*')
 		->groupBy('va.product_id')
-    	->where('img.is_default', '=', 1)
-    	->orderBy('p.id','desc')->limit(10)
+    	->where('cate.id',$id)
+    	->orderBy('cate.id','desc')->take(8)
     	->get();
 
     	return view('frontend.list', compact('Products'));
@@ -50,14 +52,24 @@ class FrontendController extends Controller
             ->leftJoin('categories AS c', 'c.id', '=', 'pc.category_id')
             ->where('pc.product_id', $id)
             ->get();
+        $variants =  DB::table('variants AS var')
+        ->leftJoin('products AS p', 'var.product_id', '=', 'p.id')
+        ->groupBy('var.product_id')
+        ->where('p.id', $id)
+        ->get();
+
+        $productImage = DB::table('products AS p')
+        ->leftJoin('product_images AS img', 'img.product_id', '=', 'p.id')
+        ->where('img.product_id', $id)
+        ->get();
         $categoryName = [];
         foreach ($categories as $category) {
             $categoryName[] = $category->name;
         }
 
         $categoryName = implode(', ', $categoryName);
-        $sizes = DB::table('properties')->where('attribute_id', 1)->get();
-        $colors = DB::table('properties')->where('attribute_id', 2)->get();
+        $sizes = DB::table('properties')->where('attribute_id', 2)->get();
+        $colors = DB::table('properties')->where('attribute_id', 1)->get();
     	    	
     	return view(
             'frontend.detail', 
@@ -65,7 +77,9 @@ class FrontendController extends Controller
                 'productDetail',
                 'categoryName',
                 'sizes',
-                'colors'
+                'colors',
+                'variants',
+                'productImage'
             )
         );	
     }

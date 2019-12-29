@@ -40,7 +40,7 @@
 
 		</div>
 		<div class="row isotope-grid">
-			@if(!empty($Products))
+		@if(!empty($Products))
 			@foreach($Products as $item)
 			<div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
 				<div class="block2">
@@ -53,13 +53,17 @@
 							<a href="{{asset('detail/'.$item->productId.'/'.$item->productcode.'.html')}}" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
 								{{$item->productname}}
 							</a>
-
-							<span class="stext-105 cl3" style="text-decoration: line-through;">
-								{{Helper::Numberformat($item->price)}} 
-							</span>
+							
 								@if($item->price > $item->discount)
 							<span class="stext-105 cl3" style="color: red">
 								{{Helper::Numberformat($item->discount)}} 
+							</span>
+							<span class="stext-105 cl3" style="text-decoration: line-through;">
+								{{Helper::Numberformat($item->price)}} 
+							</span>
+								@else
+							<span class="stext-105 cl3" style="text-decoration: ">
+								{{Helper::Numberformat($item->price)}} 
 							</span>
 							@endif	
 						</div>
@@ -74,7 +78,7 @@
 				</div>
 			</div>
 			@endforeach
-			@else
+		@else
 				<h1>Không có sản phẩm</h1>
 			@endif
 		</div>
