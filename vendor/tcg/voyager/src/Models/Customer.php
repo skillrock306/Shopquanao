@@ -8,8 +8,6 @@ use TCG\Voyager\Traits\Translatable;
 
 class Customer extends Model
 {
-	public function customers()
-    {
 
-    }
+
 }

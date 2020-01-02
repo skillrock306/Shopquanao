@@ -15,8 +15,9 @@ class User extends \TCG\Voyager\Models\User
      *
      * @var array
      */
+   protected $guard = 'customer';
     protected $fillable = [
-        'name', 'email', 'password',
+        'email', 'password',
     ];
 
     /**
@@ -37,3 +38,4 @@ class User extends \TCG\Voyager\Models\User
         'email_verified_at' => 'datetime',
     ];
 }
+
