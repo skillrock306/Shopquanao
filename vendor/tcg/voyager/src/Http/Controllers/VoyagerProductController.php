@@ -174,12 +174,33 @@ class VoyagerProductController extends Controller
     }
     public function editProductImage(Request $request, $id)
     {
-    	$images = DB::table('product_images')->where('product_id', $id)->get();
+    	$images = DB::table('product_images AS pi')
+        ->where('product_id', $id)
+        ->get();
     	// GET THE DataType based on the slug
 
     	$colors = DB::table('properties')->where('attribute_id', 1)->get();
+        $imagesData = [];
 
-    	return Voyager::view('voyager::products.edit-add-product-image', compact('id', 'sizes', 'colors', 'images'));
+        foreach ($colors as $color) {
+            if (empty($images)) {
+                continue;
+            }
+
+            $imageData[$color->id]['name'] = $color->name;
+            $i = 0;
+
+            foreach ($images as $image) {
+                if ($color->id != $image->property_id) {
+                    continue;
+                }
+
+                $imageData[$color->id]['images'][$i] = $image;
+                $i++;
+            }
+        }
+
+    	return Voyager::view('voyager::products.edit-add-product-image', compact('id', 'sizes', 'colors', 'imageData'));
     }
     public function postProductImage(Request $request){
     	$validatedData = $request->validate([

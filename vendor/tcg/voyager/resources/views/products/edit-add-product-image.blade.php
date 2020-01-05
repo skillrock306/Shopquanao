@@ -69,29 +69,28 @@
                         </tr>
                     </thead>
 
-                @if(!empty($colors))
-                    @foreach($colors as $color)
-                    <tr>
-                        <td>
-                            <h3>
-                            {{$color->name}}
-                            </h3>
-                        </td>
-                    @if(!empty($images))
-                        <td id="images">
-                        @foreach($images as $image)
-                            @if($image->property_id == $color->id)
-                            <img src="{{url('storage/products/'.$image->name)}}" width="300px" height="300px" alt="">
-                            <a onclick="return confirm('Bạn có chắc chắn muốn xóa không ?')" 
-                             data-id="{{ $image->product_id,$image->property_id,$image->ordering }}" data-token="{{ csrf_token() }}" href="/admin/delete-product-images/{{$image->id}}" class="btn btn-danger btn-social-outline deleteImage">
-                            X</a>
-                            <input type="radio" onclick="setDefault(this);" class="form-check-input"   
-                                    data-id="{{ $image->id }}" data-token="{{ csrf_token() }}" data-product-id="{{ $image->product_id }}">
-                            @endif
-                        @endforeach
-                        </td>
-                     @endif
-                    </tr>
+                @if(!empty($imageData))
+                    @foreach($imageData as $data)
+                        @if(!empty($data['images']))
+                        <tr>
+                            <td>
+                                <h3>
+                                {{$data['name']}}
+                                </h3>
+                            </td>
+                        
+                            <td id="images">
+                            @foreach($data['images'] as $image)
+                                <img src="{{url('storage/products/'.$image->name)}}" width="300px" height="300px" alt="">
+                                <a onclick="return confirm('Bạn có chắc chắn muốn xóa không ?')" 
+                                 data-id="{{ $image->product_id,$image->property_id,$image->ordering }}" data-token="{{ csrf_token() }}" href="/admin/delete-product-images/{{$image->id}}" class="btn btn-danger btn-social-outline deleteImage">
+                                X</a>
+                                <input type="radio" onclick="setDefault(this);" class="form-check-input"   
+                                        data-id="{{ $image->id }}" data-token="{{ csrf_token() }}" data-product-id="{{ $image->product_id }}">
+                            @endforeach
+                            </td>
+                        </tr>
+                        @endif
                     @endforeach
                 @endif
                 </table>
