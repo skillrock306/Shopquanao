@@ -23,8 +23,13 @@ Route::get('/cart', 'CartController@index')->name('index');
 Route::post('/add-to-cart', 'CartController@addCart')->name('addCart');
 Route::post('/update-cart', 'CartController@updateCart')->name('updateCart');
 Auth::routes();
-		Route::get('/login','UserController@getLogin');
-		Route::post('/login','UserController@postLogin');
+
+Route::get('/login','UserController@getLogin');
+Route::post('/login','UserController@postLogin');
+Route::get('/logout','UserController@destroy');
+
+Route::get('/register','UserController@getRegister')->name('getRegister');
+Route::post('/register','UserController@postRegister')->name('postRegister');
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();

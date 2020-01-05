@@ -53,7 +53,7 @@
 					<div class="menu-desktop">
 						<ul class="main-menu">
 							<li>
-								<a href="index.php">Trang Chủ</a>
+								<a href="#">Trang Chủ</a>
 							</li>
 
 							<li class="active-menu label1" data-label1="hot">
@@ -206,35 +206,35 @@
 						</a>
 					</li>
 
-					<?php if (empty($userId)) : ?>
+					@if(auth()->check())
 						<li class="p-b-13">
-							<a href="index.php?view=login" class="stext-102 cl2 hov-cl1 trans-04">
-								Login
+							<a href="#" class="stext-102 cl2 hov-cl1 trans-04">
+								Xin chào {{auth()->user()->email }}
 							</a>
 						</li>
 
 						<li class="p-b-13">
-							<a href="index.php?view=register" class="stext-102 cl2 hov-cl1 trans-04">
-								Register
+							<a href="/logout" class="stext-102 cl2 hov-cl1 trans-04">
+								Đăng xuất
 							</a>
 						</li>
-					<?php else: ?>
+					@else
 						<li class="p-b-13">
-							<a href="index.php?view=myaccount" class="stext-102 cl2 hov-cl1 trans-04">
-								<?php echo $userEmail; ?>
-							</a>
-						</li>
-						<li class="p-b-13">
-							<a href="index.php?view=login&action=logout" class="stext-102 cl2 hov-cl1 trans-04">
-								Logout
+							<a href="/login" class="stext-102 cl2 hov-cl1 trans-04">
+								Đăng nhập
 							</a>
 						</li>
 						<li class="p-b-13">
-							<a href="index.php?view=myaccount&action=order" class="stext-102 cl2 hov-cl1 trans-04">
+							<a href="/register" class="stext-102 cl2 hov-cl1 trans-04">
+								Đăng ký
+							</a>
+						</li>
+						<li class="p-b-13">
+							<a href="/trackOder" class="stext-102 cl2 hov-cl1 trans-04">
 								Track Oder
 							</a>
 						</li>
-					<?php endif; ?>
+					@endif
 				</ul>
 
 				<div class="sidebar-gallery w-full p-tb-30">
@@ -406,30 +406,34 @@
 					</h4>
 
 					<ul>
-						<?php if (empty($userId)) : ?>
+						@if(auth()->check())
 						<li class="p-b-10">
-							<a href="index.php?view=login" class="stext-107 cl7 hov-cl1 trans-04">
-								Login
-							</a>
-						</li>
-
-						<li class="p-b-10">
-							<a href="index.php?view=register" class="stext-107 cl7 hov-cl1 trans-04">
-								Register
-							</a>
-						</li>
-						<?php else: ?>
-						<li class="p-b-10">
-							<a href="index.php?view=myaccount" class="stext-107 cl7 hov-cl1 trans-04">
-								My account
+							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
+								Xin chào {{auth()->user()->email }}
 							</a>
 						</li>
 						<li class="p-b-10">
-							<a href="index.php?view=myaccount&action=order" class="stext-107 cl7 hov-cl1 trans-04">
+							<a href="#" class="stext-107 cl7 hov-cl1 trans-04">
 								Track order
 							</a>
 						</li>
-						<?php endif; ?>
+						<li class="p-b-10">
+							<a href="/logout" class="stext-107 cl7 hov-cl1 trans-04">
+								Đăng xuất
+							</a>
+						</li>
+						@else
+						<li class="p-b-10">
+							<a href="/login" class="stext-107 cl7 hov-cl1 trans-04">
+								Đăng nhập
+							</a>
+						</li>
+						<li class="p-b-10">
+							<a href="/register" class="stext-107 cl7 hov-cl1 trans-04">
+								Đăng ký
+							</a>
+						</li>
+						@endif
 					</ul>
 				</div>
 

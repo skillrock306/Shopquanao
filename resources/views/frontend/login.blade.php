@@ -6,7 +6,7 @@
 		<div class="flex-w flex-tr">
 			<div class="container"  align="center">
 			<div class="size-210 bor10 p-lr-70 p-t-55 p-b-70 p-lr-15-lg w-full-md" style="width: 50%;" >
-				<form method="POST" role="form">
+				<form method="POST" action="/login" role="form">
 				{{csrf_field()}}
 				 <fieldset>
 					<h4 class="mtext-105 cl2 txt-center p-b-30">

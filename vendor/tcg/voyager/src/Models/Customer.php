@@ -8,6 +8,7 @@ use TCG\Voyager\Traits\Translatable;
 
 class Customer extends Model
 {
-
-
+	protected $table = 'customers';
+	protected $primaryKey = 'id';
+    protected $guarded = [];
 }

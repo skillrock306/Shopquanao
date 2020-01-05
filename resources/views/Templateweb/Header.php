@@ -211,35 +211,35 @@
 						</a>
 					</li>
 
-					<?php if (empty($userId)) : ?>
+					@if(auth()->check())
 						<li class="p-b-13">
-							<a href="index.php?view=login" class="stext-102 cl2 hov-cl1 trans-04">
-								Login
+							<a href="#" class="stext-102 cl2 hov-cl1 trans-04">
+								Xin chào {{auth()->user()->email }}
 							</a>
 						</li>
 
 						<li class="p-b-13">
-							<a href="index.php?view=register" class="stext-102 cl2 hov-cl1 trans-04">
-								Register
+							<a href="/logout" class="stext-102 cl2 hov-cl1 trans-04">
+								Đăng xuất
 							</a>
 						</li>
-					<?php else: ?>
+					@else
 						<li class="p-b-13">
-							<a href="index.php?view=myaccount" class="stext-102 cl2 hov-cl1 trans-04">
-								<?php echo $userEmail; ?>
-							</a>
-						</li>
-						<li class="p-b-13">
-							<a href="index.php?view=login&action=logout" class="stext-102 cl2 hov-cl1 trans-04">
-								Logout
+							<a href="/login" class="stext-102 cl2 hov-cl1 trans-04">
+								Đăng nhập
 							</a>
 						</li>
 						<li class="p-b-13">
-							<a href="index.php?view=myaccount&action=order" class="stext-102 cl2 hov-cl1 trans-04">
+							<a href="/register" class="stext-102 cl2 hov-cl1 trans-04">
+								Đăng ký
+							</a>
+						</li>
+						<li class="p-b-13">
+							<a href="/trackOder" class="stext-102 cl2 hov-cl1 trans-04">
 								Track Oder
 							</a>
 						</li>
-					<?php endif; ?>
+					@endif
 				</ul>
 
 				<div class="sidebar-gallery w-full p-tb-30">
