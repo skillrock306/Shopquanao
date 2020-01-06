@@ -818,6 +818,16 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	        	}
 	        });
 		}
+
+		function addNewCustomerAddress(el) {
+			var value = $(el).val();
+			if (value == 0) {
+				$('#new-shipping-address').removeClass('d-none').addClass('d-block');
+			} else {
+				$('#new-shipping-address').removeClass('d-block').addClass('d-none');
+			}
+			
+		}
 	</script>
 <!--===============================================================================================-->
 	<script src="js/main.js"></script>
