@@ -78,8 +78,8 @@ class FrontendController extends Controller
         }
 
         $categoryName = implode(', ', $categoryName);
-        $sizes = DB::table('properties')->where('attribute_id', 2)->get();
-        $colors = DB::table('properties')->where('attribute_id', 1)->get();
+        $sizes = DB::table('properties')->where('attribute_id', 2)->whereRaw('id IN (SELECT pv.property_id FROM product_variants AS pv LEFT JOIN variants AS v ON v.id = pv.variant_id WHERE v.product_id = ' . $id . ')')->get();
+        $colors = DB::table('properties')->where('attribute_id', 1)->whereRaw('id IN (SELECT pv.property_id FROM product_variants AS pv LEFT JOIN variants AS v ON v.id = pv.variant_id WHERE v.product_id = ' . $id . ')')->get();
     	    	
     	return view(
             'frontend.detail', 

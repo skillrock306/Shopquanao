@@ -35,6 +35,10 @@ Route::get('/logout','UserController@destroy');
 Route::get('/register','UserController@getRegister')->name('getRegister');
 Route::post('/register','UserController@postRegister')->name('postRegister');
 
+Route::get('/checkout','CheckoutController@checkout');
+Route::post('/storeCheckout','CheckoutController@storeCheckout')->name('storeCheckout');
+Route::get('/complete/{orderId}','CheckoutController@complete');
+
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 });

@@ -41,7 +41,7 @@
                                 <select class="form-control"name="color">
                                     @foreach($colors as $color)
                                         <option value="{{ $color->id }}">
-                                            {{ $color->namepro }}
+                                            {{ $color->name }}
                                         </option>
                                     @endforeach
                                 </select>

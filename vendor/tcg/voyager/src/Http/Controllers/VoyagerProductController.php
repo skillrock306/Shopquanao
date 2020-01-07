@@ -178,17 +178,15 @@ class VoyagerProductController extends Controller
         ->where('product_id', $id)
         ->get();
     	// GET THE DataType based on the slug
-
-    	$colors = DB::table('properties AS p')
-        ->leftJoin('product_images AS pi', 'pi.property_id', '=', 'p.id')
-        ->leftJoin('product_variants AS pv', 'pv.property_id', '=', 'p.id')
-        ->leftJoin('variants AS v', 'v.id', '=', 'pv.variant_id')
-        ->where('attribute_id', 1)
-        ->where('v.product_id',$id)
-        ->select('pi.*','v.*','p.name as namepro','p.id AS idpro')
-        ->groupby('pi.property_id')
-        ->get();
    
+
+    	$colors = DB::table('properties')
+            ->where('attribute_id', 1)
+            ->whereRaw('id IN (SELECT pv.property_id FROM product_variants AS pv 
+                LEFT JOIN variants AS v ON v.id = pv.variant_id WHERE v.product_id = ' . $id . ')')
+            ->get();
+
+
         $imageData = [];
 
         foreach ($colors as $color) {
@@ -196,15 +194,15 @@ class VoyagerProductController extends Controller
                 continue;
             }
 
-            $imageData[$color->idpro]['name'] = $color->namepro;
+            $imageData[$color->id]['name'] = $color->name;
             $i = 0;
      
             foreach ($images as $image) {
-                if ($color->idpro != $image->property_id) {
+                if ($color->id != $image->property_id) {
                     continue;
                 }
 
-                $imageData[$color->idpro]['images'][$i] = $image;
+                $imageData[$color->id]['images'][$i] = $image;
                 $i++;
             }
         }
