@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use TCG\Voyager\Models\Customer;
+use TCG\Voyager\Models\User;
 use Auth;
 class UserController extends Controller
 {

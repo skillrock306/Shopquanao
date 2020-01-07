@@ -13,8 +13,12 @@
 
 Route::get('/', 'FrontendController@getHome');
 
+Route::get('/about', 'FrontendController@getAbout');
+Route::get('/contact', 'FrontendController@getContact');
+
 Route::get('detail/{id}/{slug}.html', 'FrontendController@getDetail');
 Route::get('category/{id}/{slug}.html', 'FrontendController@getCategory');
+Route::get('/allproduct', 'FrontendController@getAllProducts');
 
 Route::post('getProductVariant', 'FrontendController@ajaxProductVariant');
 

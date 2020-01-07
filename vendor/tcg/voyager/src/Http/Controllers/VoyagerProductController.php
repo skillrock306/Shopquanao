@@ -174,32 +174,41 @@ class VoyagerProductController extends Controller
     }
     public function editProductImage(Request $request, $id)
     {
-    	$images = DB::table('product_images AS pi')
+    	$images = DB::table('product_images')
         ->where('product_id', $id)
         ->get();
     	// GET THE DataType based on the slug
 
-    	$colors = DB::table('properties')->where('attribute_id', 1)->get();
-        $imagesData = [];
+    	$colors = DB::table('properties AS p')
+        ->leftJoin('product_images AS pi', 'pi.property_id', '=', 'p.id')
+        ->leftJoin('product_variants AS pv', 'pv.property_id', '=', 'p.id')
+        ->leftJoin('variants AS v', 'v.id', '=', 'pv.variant_id')
+        ->where('attribute_id', 1)
+        ->where('v.product_id',$id)
+        ->select('pi.*','v.*','p.name as namepro','p.id AS idpro')
+        ->groupby('pi.property_id')
+        ->get();
+   
+        $imageData = [];
 
         foreach ($colors as $color) {
             if (empty($images)) {
                 continue;
             }
 
-            $imageData[$color->id]['name'] = $color->name;
+            $imageData[$color->idpro]['name'] = $color->namepro;
             $i = 0;
-
+     
             foreach ($images as $image) {
-                if ($color->id != $image->property_id) {
+                if ($color->idpro != $image->property_id) {
                     continue;
                 }
 
-                $imageData[$color->id]['images'][$i] = $image;
+                $imageData[$color->idpro]['images'][$i] = $image;
                 $i++;
             }
         }
-
+        // echo "<pre>"; print_r($images); die();   
     	return Voyager::view('voyager::products.edit-add-product-image', compact('id', 'sizes', 'colors', 'imageData'));
     }
     public function postProductImage(Request $request){

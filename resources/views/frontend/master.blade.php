@@ -45,7 +45,7 @@
 				<nav class="limiter-menu-desktop p-l-45">
 					
 					<!-- Logo desktop -->		
-					<a href="index.php" class="logo">
+					<a href="{{asset('/')}}" class="logo">
 						<img src="images/icons/logo-01.png" alt="IMG-LOGO">
 					</a>
 
@@ -53,7 +53,7 @@
 					<div class="menu-desktop">
 						<ul class="main-menu">
 							<li>
-								<a href="#">Trang Chủ</a>
+								<a href="{{asset('/')}}">Trang Chủ</a>
 							</li>
 
 							<li class="active-menu label1" data-label1="hot">
@@ -70,11 +70,11 @@
 							</li> -->
 
 							<li>
-								<a href="index.php?view=content&action=about">About</a>
+								<a href="{{asset('/about')}}">About</a>
 							</li>
 
 							<li>
-								<a href="index.php?view=content&action=contact">Contact</a>
+								<a href="{{asset('/contact')}}">Contact</a>
 							</li>
 						</ul>
 					</div>	
