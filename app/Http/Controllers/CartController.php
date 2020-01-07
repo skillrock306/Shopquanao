@@ -71,7 +71,6 @@ class CartController extends Controller
 
         if ($variants->discount < $variants->price) {
             $price = $variants->discount;
-            
         } else {
             $price = $variants->price;
         }
