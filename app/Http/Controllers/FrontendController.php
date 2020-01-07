@@ -109,7 +109,15 @@ class FrontendController extends Controller
             $data['data'] = [];
         } else {
             $data['msg'] = 'success';
+
+            if ($variant->discount < $variant->price && $variant->discount > 0) {
+                $variant->isDiscount = 1;
+            } else {
+                $variant->isDiscount = 0;
+            }
+
             $variant->price = Helper::Numberformat($variant->price);
+            $variant->discount = Helper::Numberformat($variant->discount);
             $data['data'] = $variant;
         }
 

@@ -26,6 +26,9 @@
 									</td>
 									<td class="column-2">
 										<strong>{{ $cart->name }}</strong><br>
+										@foreach ($cart->attributes->data as $attribute)
+											{{ $attribute->attribute_name }}: {{ $attribute->property_name }} <br>
+										@endforeach
 									</td>
 									<td class="column-3">
 										{{ Helper::Numberformat($cart->price) }}
