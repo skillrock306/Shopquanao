@@ -66,10 +66,15 @@ class CartController extends Controller
             ->leftJoin('product_images AS pi', 'p.id', '=', 'pi.product_id')
             ->select('var.id', 'var.product_id', 'var.code', 'var.stock', 'var.price', 'var.discount','p.name AS product_name', 'p.code AS product_code', 'pi.name AS product_image')
             ->where('var.id', $id)
-            ->where('pi.is_default', 1)
             ->first();
+        $properties =  DB::table('product_variants AS pv')
+            ->select('p.name AS property_name', 'a.name AS attribute_name')
+            ->leftJoin('properties AS p', 'pv.property_id', '=', 'p.id')
+            ->leftJoin('attributes AS a', 'a.id', '=', 'p.attribute_id')
+            ->where('pv.variant_id', $id)
+            ->get();
 
-        if ($variants->discount < $variants->price) {
+        if ($variants->discount < $variants->price && $variants->discount > 0) {
             $price = $variants->discount;
         } else {
             $price = $variants->price;
@@ -82,7 +87,8 @@ class CartController extends Controller
             'price'=> $price,
             'attributes' => [
                 'product_id' => $variants->product_id,
-                'image' => $variants->product_image
+                'image' => $variants->product_image,
+                'data' => $properties
             ]
         ];
     }

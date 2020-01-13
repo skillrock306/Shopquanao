@@ -10,6 +10,8 @@ use TCG\Voyager\Models\ProductCategory;
 use TCG\Voyager\Models\ProductVariant;
 use TCG\Voyager\Models\Variant;
 use TCG\Voyager\Models\Property;
+use TCG\Voyager\Models\Order;
+use TCG\Voyager\Models\OrderDetail;
 use TCG\Voyager\Models\ProductImage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -73,6 +75,50 @@ class VoyagerProductController extends Controller
     		'id'
     	)); 
     }
+    public function getOrderDetail(Request $request,$id)
+    {
+        $orderId = null;
+        $dataType = Voyager::model('DataType')->where('slug', 'products')->first();
+        $orders = DB::table('orders')
+        ->where('id',$id)
+        ->first();
+        $orderShipping = DB::table('orders AS o')
+        ->leftJoin('customers AS cus','cus.id','=','o.customer_id')
+        ->leftJoin('shipping_addresses AS ship','ship.id','=','o.shipping_address_id')
+        ->where('o.id',$id)
+        ->where('ship.is_default','=','1')
+        ->first();
+        $OrderDetail = DB::table('order_details AS od')
+        ->leftJoin('orders AS o','o.id','=','od.order_id')
+        ->leftJoin('shipping_addresses AS ship','ship.id','=','o.shipping_address_id')
+        ->leftJoin('products AS p','p.id','=','od.product_id')
+        ->leftJoin('product_images AS pimg','pimg.product_id','=','p.id')
+        ->leftJoin('variants AS var','var.id','=','od.variant_id')
+        ->where('order_id',$id)
+        ->where('pimg.is_default','=','1')
+        ->select('od.*','o.*','pimg.name AS imgname','p.*','var.*','ship.*')
+        ->get();
+        // echo "<pre>"; print_r($OrderDetail); die();
+        return Voyager::view('voyager::products.edit-add-orderdetail', compact(
+            'orderId',
+            'dataType',
+            'orders',
+            'OrderDetail',
+            'orderShipping'
+        )); 
+    }
+
+    public function postUpdateStatus(Request $request)
+    {   
+        $orderId  = $request->input('id');
+
+        $order_details = Order::findOrFail($orderId);
+        $order_details->status = $request->input('status');
+        $order_details->save();
+         
+        return redirect('admin/edit-order-detail/' . $orderId);
+    }
+
     public function postEdit(Request $request)
     {
     	$dataType = Voyager::model('DataType')->where('slug', 'products')->first();
@@ -307,4 +353,5 @@ class VoyagerProductController extends Controller
 
         return false;
     }
+
 }

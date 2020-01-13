@@ -1,8 +1,11 @@
 @extends('frontend.master')
 @section('title','Chi tiết sản phẩm')
 @section('main')
-		
-
+<style type="text/css">
+	.discount {
+		text-decoration: line-through;
+	}
+</style>
 	<!-- Product Detail -->
 	<section class="sec-product-detail bg0 p-t-65 p-b-60">
 		<div class="container">
@@ -37,17 +40,19 @@
 						</h4>
 						@foreach($variants as $variant)
 						
-						@if($variant->price > $variant->discount)
-							<span class="mtext-106 cl2" id="price" style="text-decoration: line-through;">
+						@if($variant->price > $variant->discount && $variant->discount > 0)
+							<span class="mtext-106 cl2 discount" id="price">
 								{{Helper::Numberformat($variant->price) }}
 							</span>
-							<span class="mtext-106 cl2" style="color: red">
+							<span class="mtext-106 cl2" id="discount-price" style="color: red">
 								{{Helper::Numberformat($variant->discount)}} 
 							</span>
 						@else
-							<span class="mtext-106 cl2" id="price" style="text-decoration;">
+							<span class="mtext-106 cl2" id="price">
 								{{Helper::Numberformat($variant->price) }}
-							</span>	
+							</span>
+							<span class="mtext-106 cl2" id="discount-price" style="color: red">
+							</span>
 						@endif
 						@endforeach
 					<!--  -->

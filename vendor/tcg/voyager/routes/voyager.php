@@ -146,7 +146,9 @@ Route::group(['as' => 'voyager.'], function () {
     Route::post('post-edit-product', ['uses' => $namespacePrefix.'VoyagerProductController@postEdit', 
                                                                      'as' => 'post_edit_product']);
 
-
+    Route::get('edit-order-detail/{id}', ['uses' => $namespacePrefix.'VoyagerProductController@getOrderDetail',  'as' => 'edit_order_detail']);
+    Route::post('post-order-status', ['uses' => $namespacePrefix.'VoyagerProductController@postUpdateStatus',  
+                                                                'as' => 'post-order-status']);
     Route::get('edit-product-variant/{id}', ['uses' => $namespacePrefix.'VoyagerProductController@editProductVariant',  'as' => 'edit_variant_product']);
     Route::post('post-product-variant', ['uses' => $namespacePrefix.'VoyagerProductController@postProductVariant',  'as' => 'post_variant_product']);
 
@@ -157,6 +159,7 @@ Route::group(['as' => 'voyager.'], function () {
     Route::get('edit-product-images/{id}', ['uses' => $namespacePrefix.'VoyagerProductController@editProductImage',  'as' => 'edit_image_product']);
     Route::post('post-product-images', ['uses' => $namespacePrefix.'VoyagerProductController@postProductImage',  'as' => 'post_image_product']);
     Route::get('delete-product-images/{id}', ['uses' => $namespacePrefix.'VoyagerProductController@postDeleteProductImage',  'as' => 'post_delete_image_product']);
+   
     //Update Product
     event(new RoutingAfter());
 });

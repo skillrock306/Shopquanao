@@ -16,7 +16,12 @@ class CheckoutController extends Controller
 {
     public function checkout()
     {
-    	$userId = Auth::user()->id;
+        $userId = !empty(Auth::user()) ? Auth::user()->id : null;
+        if (empty($userId))
+        {
+            return view('frontend.login');
+        }
+
         $carts = \Cart::getContent();
         $userAddresses =  DB::table('shipping_addresses')
             ->select('id', 'customer_address', 'is_default')

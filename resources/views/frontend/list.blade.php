@@ -6,7 +6,7 @@
 		<div class="flex-w flex-sb-m p-b-52">
 			<div class="flex-w flex-l-m filter-tope-group m-tb-10">
 					<a href="{{asset('/allproduct')}}" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
-						All Products
+						Tất cả sản phẩm
 					</a>
 					@foreach(Voyager::model('Category')::all() as $category)
 					<a href="{{asset('category/'.$category->id.'/'.$category->slug.'.html')}}" class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">

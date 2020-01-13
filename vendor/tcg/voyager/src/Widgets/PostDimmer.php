@@ -5,7 +5,9 @@ namespace TCG\Voyager\Widgets;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use TCG\Voyager\Facades\Voyager;
-
+use TCG\Voyager\Models\Order;
+use Illuminate\Support\Facades\DB;
+use App\Helpers\Helper;
 class PostDimmer extends BaseDimmer
 {
     /**
@@ -20,17 +22,19 @@ class PostDimmer extends BaseDimmer
      * Return view() or other content to display.
      */
     public function run()
-    {
-        $count = Voyager::model('Post')->count();
-        $string = trans_choice('voyager::dimmer.post', $count);
+    {   
+       
+        $count = \TCG\Voyager\Models\Order::sum('total');
+         // echo "<pre>"; print_r($order); die();
 
+        $string = 'Doanh thu';
         return view('voyager::dimmer', array_merge($this->config, [
             'icon'   => 'voyager-news',
-            'title'  => "{$count} {$string}",
-            'text'   => __('voyager::dimmer.post_text', ['count' => $count, 'string' => Str::lower($string)]),
+            'title'  => "{$string} ".Helper::Numberformat($count)." ",
+            'text'   => __('voyager::dimmer.post_text', ['string' => Str::lower($string),'count' => Helper::Numberformat($count) ]),
             'button' => [
                 'text' => __('voyager::dimmer.post_link_text'),
-                'link' => route('voyager.posts.index'),
+                'link' => route('voyager.orders.index'),
             ],
             'image' => voyager_asset('images/widget-backgrounds/02.jpg'),
         ]));

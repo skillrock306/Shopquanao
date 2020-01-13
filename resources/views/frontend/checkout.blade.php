@@ -20,16 +20,19 @@
 							<tr class="table_row">
 								<td class="column-1">
 									<div class="">
-										<img src="{{asset('storage/products/' . $cart->attributes->image)}}" alt="{{ $cart->name }}">
+										<img src="{{asset('storage/products/' . $cart->attributes->image)}}" width="100px" alt="{{ $cart->name }}">
 									</div>
 								</td>
 								<td class="column-2">
-									{{ $cart->name }}
+									{{ $cart->name }}<br>
+									@foreach ($cart->attributes->data as $attribute)
+										{{ $attribute->attribute_name }}: {{ $attribute->property_name }} <br>
+									@endforeach
 								</td>
 								<td class="column-3">
 									{{ Helper::Numberformat($cart->price) }}
 								</td>
-								<td class="column-4">
+								<td class="column-4" style="text-align:center">
 									{{$cart->quantity}}
 								</td>
 								<td class="column-5">{{ Helper::Numberformat($cart->price * $cart->quantity) }}</td>

@@ -158,11 +158,11 @@
 				<!-- Nav tabs -->
 				<ul class="nav nav-tabs" role="tablist">
 					<li class="nav-item p-b-10">
-						<a class="nav-link active" data-toggle="tab" href="#best-seller" role="tab">Best Seller</a>
+						<a class="nav-link active" data-toggle="tab" href="#best-seller" role="tab">Sản phẩm</a>
 					</li>
 
 					<li class="nav-item p-b-10">
-						<a class="nav-link" data-toggle="tab" href="#sale" role="tab">Sale</a>
+						<a class="nav-link" data-toggle="tab" href="#sale" role="tab">Sản phẩm giảm giá</a>
 					</li>
 				</ul>
 
@@ -177,6 +177,7 @@
 							<div class="slick2">
 							@if(!empty($Products))
 								@foreach($Products as $item)
+									@if($item->discount == $item->price)
 								<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
 									<!-- Block2 -->
 									<div class="block2">
@@ -204,8 +205,10 @@
 										</div>
 									</div>
 								</div>
+
+									@endif
 								@endforeach
-								@endif
+							@endif
 							</div>
 						</div>
 					</div>

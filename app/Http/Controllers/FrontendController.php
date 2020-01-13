@@ -26,7 +26,7 @@ class FrontendController extends Controller
     	->where('img.is_default', '=', 1)
     	->orderBy('p.id','desc')->limit(10)
     	->get();
-      
+      // echo "<pre>"; print_r($Products); die();
     	return view('frontend.homepage', compact('Products'));
     }
     public function getCategory($id)
@@ -119,7 +119,15 @@ class FrontendController extends Controller
             $data['data'] = [];
         } else {
             $data['msg'] = 'success';
+
+            if ($variant->discount < $variant->price && $variant->discount > 0) {
+                $variant->isDiscount = 1;
+            } else {
+                $variant->isDiscount = 0;
+            }
+
             $variant->price = Helper::Numberformat($variant->price);
+            $variant->discount = Helper::Numberformat($variant->discount);
             $data['data'] = $variant;
         }
 

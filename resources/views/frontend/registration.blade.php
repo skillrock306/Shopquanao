@@ -35,17 +35,27 @@
 							<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" type="text" name="phone_number" placeholder="Số điện thoại">
 							
 						</div>
+
 						<div class="bor8 m-b-20 how-pos4-parent">
 							<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" type="text" name="address" placeholder="Địa chỉ">
 							
 						</div>
+
 						<div class="bor8 m-b-20 how-pos4-parent">
 							<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" type="text" name="email" placeholder="Email">
-							
 						</div>
 						<div class="bor8 m-b-20 how-pos4-parent">
+							<input type="file" class="form-control" id="avatar" name="avatar"> 
+						</div>
+						<div class="bor8 m-b-20 how-pos4-parent">
+							<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" type="text" name="nickname" placeholder="Biệt danh">
+						</div>
+						<div class="bor8 m-b-20 how-pos4-parent">
+							<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" type="text" name="account" placeholder="Tài khoản">
+						</div>
+
+						<div class="bor8 m-b-20 how-pos4-parent">
 							<input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" type="password" name="password" placeholder="Mật khẩu">
-							
 						</div>
 
 						<button type="submit" class="flex-c-m stext-101 cl0 size-121 bg3 bor1 hov-btn3 p-lr-15 trans-04 pointer" style="width: 40%;">

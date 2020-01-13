@@ -5,7 +5,7 @@ namespace TCG\Voyager\Widgets;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use TCG\Voyager\Facades\Voyager;
-
+use TCG\Voyager\Models\Order;
 class PageDimmer extends BaseDimmer
 {
     /**
@@ -21,8 +21,8 @@ class PageDimmer extends BaseDimmer
      */
     public function run()
     {
-        $count = Voyager::model('Page')->count();
-        $string = trans_choice('voyager::dimmer.page', $count);
+        $count = \TCG\Voyager\Models\Order::count();
+        $string = 'Đơn hàng';
 
         return view('voyager::dimmer', array_merge($this->config, [
             'icon'   => 'voyager-file-text',
@@ -30,7 +30,7 @@ class PageDimmer extends BaseDimmer
             'text'   => __('voyager::dimmer.page_text', ['count' => $count, 'string' => Str::lower($string)]),
             'button' => [
                 'text' => __('voyager::dimmer.page_link_text'),
-                'link' => route('voyager.pages.index'),
+                'link' => route('voyager.orders.index'),
             ],
             'image' => voyager_asset('images/widget-backgrounds/03.jpg'),
         ]));

@@ -22,7 +22,7 @@ class UserDimmer extends BaseDimmer
     public function run()
     {
         $count = Voyager::model('User')->count();
-        $string = trans_choice('voyager::dimmer.user', $count);
+        $string = 'Thành viên';
 
         return view('voyager::dimmer', array_merge($this->config, [
             'icon'   => 'voyager-group',
