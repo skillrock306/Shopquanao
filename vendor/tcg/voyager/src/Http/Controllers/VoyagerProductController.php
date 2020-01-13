@@ -354,4 +354,22 @@ class VoyagerProductController extends Controller
         return false;
     }
 
+    public function setDefaultImage(Request $request)
+    {
+        $propertyId = $request->input('propertyId');
+        $productId = $request->input('productId');
+        $imageId = $request->input('imageId');
+
+        DB::table('product_images')
+            ->where('property_id', $propertyId)
+            ->where('product_id', $productId)
+            ->update(['is_default' => 0]);
+
+        DB::table('product_images')
+            ->where('id', $imageId)
+            ->update(['is_default' => 1]);
+
+        return json_encode(['msg' => true]);
+    }
+
 }

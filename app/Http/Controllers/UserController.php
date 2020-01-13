@@ -33,11 +33,11 @@ class UserController extends Controller
     }
     public function postLogin(Request $request)
     {
-		    	if(!auth()->attempt(request(['email','password']))){
-					return back()->withError([
-						'message' => 'The email or password is incorrect, please try again'
-						]);
-				}
+    	if(!auth()->attempt(request(['email','password']))){
+			return back()->withError([
+				'message' => 'The email or password is incorrect, please try again'
+				]);
+		}
 		return view('frontend.homepage');
     }
     public function destroy()
@@ -54,7 +54,7 @@ class UserController extends Controller
     public function postRegister(Request $request)
     {
     	$user = new User();
-        $user->role_id = 1;
+        $user->role_id = 2;
         $user->password = Hash::make($request->input('password'));
         $user->name = $request->input('nickname');
         $user->email = $request->input('account');

@@ -57,52 +57,52 @@
                         </div>
                        <!------Table list image-->
                         <div class="page-content container-fluid">
-        @include('voyager::alerts')
-        <div class="row">
-            <div class="col-md-12">
+                            @include('voyager::alerts')
+                            <div class="row">
+                                <div class="col-md-12">
 
-                <table class="table table-striped database-tables">
-                    <thead>
-                        <tr>
-                            <th>{{ __('voyager::product.properties_color') }}</th>
-                            <th>{{ __('voyager::product.image') }}</th>
-                        </tr>
-                    </thead>
+                                    <table class="table table-striped database-tables">
+                                        <thead>
+                                            <tr>
+                                                <th>{{ __('voyager::product.properties_color') }}</th>
+                                                <th>{{ __('voyager::product.image') }}</th>
+                                            </tr>
+                                        </thead>
 
-                @if(!empty($imageData))
-                    @foreach($imageData as $data)
-                        @if(!empty($data['images']))
-                        <tr>
-                            <td>
-                                <h3>
-                                {{$data['name']}}
-                                </h3>
-                            </td>
-                        
-                            <td id="images">
-                            @foreach($data['images'] as $image)
-                                <img src="{{url('storage/products/'.$image->name)}}" width="300px" height="300px" alt="">
-                                <a onclick="return confirm('Bạn có chắc chắn muốn xóa không ?')" 
-                                 data-id="{{ $image->product_id,$image->property_id,$image->ordering }}" 
-                                 data-token="{{ csrf_token() }}" href="/admin/delete-product-images/{{$image->id}}" 
-                                 class="btn btn-danger btn-social-outline deleteImage">
-                                X</a>
-                                <input type="radio" onclick="setDefault(this);" class="form-check-input"   
-                                        data-id="{{ $image->id }}" data-token="{{ csrf_token() }}" data-product-id="{{ $image->product_id }}">
-                            @endforeach
-                            </td>
-                        </tr>
-                        @endif
-                    @endforeach
-                @endif
-                </table>
-            </div>
-        </div>
-    </div>
-    <!-- End TablelistImage-------------- -->
+                                        @if(!empty($imageData))
+                                            @foreach($imageData as $data)
+                                                @if(!empty($data['images']))
+                                                <tr>
+                                                    <td>
+                                                        <h3>
+                                                        {{$data['name']}}
+                                                        </h3>
+                                                    </td>
+                                                
+                                                    <td id="images">
+                                                    @foreach($data['images'] as $image)
+                                                        <img src="{{url('storage/products/'.$image->name)}}" width="300px" height="300px" alt="">
+                                                        <a onclick="return confirm('Bạn có chắc chắn muốn xóa không ?')" 
+                                                         data-id="{{ $image->product_id,$image->property_id,$image->ordering }}" 
+                                                         data-token="{{ csrf_token() }}" href="/admin/delete-product-images/{{$image->id}}" 
+                                                         class="btn btn-danger btn-social-outline deleteImage">
+                                                        X</a>
+                                                        <input type="radio" onclick="setDefault(this);" class="form-check-input"   
+                                                                data-property-id="{{ $image->property_id }}" data-token="{{ csrf_token() }}" data-product-id="{{ $image->product_id }}" data-image-id="{{ $image->id }}"
+                                                                @if ($image->is_default == 1) checked="" @endif
+                                                                >
+                                                    @endforeach
+                                                    </td>
+                                                </tr>
+                                                @endif
+                                            @endforeach
+                                        @endif
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
             </div>
 
             <button type="submit" name="submit" class="btn btn-primary pull-left save">
@@ -114,54 +114,3 @@
         </form>
     </div>
 @stop
-
-<script>
-    $(".deleteImage").click(function(){
-        var id = $(this).data("product_id");
-        var colorId = $(this).data("property_id");
-        var ordering = $(this).data("ordering");
-        var token = $(this).data("token");
-        $.ajax(
-        {
-            url: "admin/delete-product-images/"+id,
-            type: 'POST',
-            dataType: "JSON",
-            data: {
-                "product_id": id,
-                "property_id":colorId,
-                "ordering":ordering,
-                "_method": 'DELETE',
-                "_token": token,
-            },
-            success: function ()
-            {
-                console.log("it Work");
-            }
-        });
-
-        console.log("It failed");
-    });
-
-   function setDefault(el){
-        var imageId = $(this).data("id");
-        var productId = $(this).data('product-id');
-        var token = $(this).data("token");
-        $.ajax(
-        {
-            url: "/admin/setDefault/",
-            type: 'POST',
-            dataType: "JSON",
-            data: {
-                "id":imageId,
-                "product_id":productId,
-                "_token": token,
-            },
-            success: function ()
-            {
-                console.log("it Work");
-            }
-        });
-
-        console.log("It failed");
-    });
-</script>

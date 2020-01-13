@@ -159,6 +159,8 @@ Route::group(['as' => 'voyager.'], function () {
     Route::get('edit-product-images/{id}', ['uses' => $namespacePrefix.'VoyagerProductController@editProductImage',  'as' => 'edit_image_product']);
     Route::post('post-product-images', ['uses' => $namespacePrefix.'VoyagerProductController@postProductImage',  'as' => 'post_image_product']);
     Route::get('delete-product-images/{id}', ['uses' => $namespacePrefix.'VoyagerProductController@postDeleteProductImage',  'as' => 'post_delete_image_product']);
+
+    Route::post('set-default', ['uses' => $namespacePrefix.'VoyagerProductController@setDefaultImage',  'as' => 'set_default']);
    
     //Update Product
     event(new RoutingAfter());

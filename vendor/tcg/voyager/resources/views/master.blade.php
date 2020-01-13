@@ -147,4 +147,52 @@ if (\Illuminate\Support\Str::startsWith(Auth::user()->avatar, 'http://') || \Ill
 @endif
 
 </body>
+<script>
+    $(".deleteImage").click(function(){
+        var id = $(this).data("product_id");
+        var colorId = $(this).data("property_id");
+        var ordering = $(this).data("ordering");
+        var token = $(this).data("token");
+        $.ajax(
+        {
+            url: "admin/delete-product-images/"+id,
+            type: 'POST',
+            dataType: "JSON",
+            data: {
+                "product_id": id,
+                "property_id":colorId,
+                "ordering":ordering,
+                "_method": 'DELETE',
+                "_token": token,
+            },
+            success: function (data)
+            {
+                console.log("it Work");
+            }
+        });
+    });
+
+   function setDefault(el){
+        var property = $(el).data("property-id");
+        var productId = $(el).data('product-id');
+        var imageId = $(el).data('image-id');
+        var token = $(el).data("token");
+        $.ajax(
+        {
+            url: "/admin/set-default/",
+            type: 'POST',
+            dataType: "JSON",
+            data: {
+                "propertyId": property,
+                "productId": productId,
+                "imageId": imageId,
+                "_token": token,
+            },
+            success: function (data)
+            {
+                console.log("it Work");
+            }
+        });
+    }
+</script>
 </html>
